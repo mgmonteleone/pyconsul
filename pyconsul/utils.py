@@ -17,7 +17,10 @@ def decode_values(fct):
         data = fct(*args, **kwargs)
         if 'error' not in data:
             for result in data:
-                result['Value'] = base64.b64decode(result['Value'])
+                if result['Value']: ## added if to handle null values
+                    result['Value'] = base64.b64decode(result['Value'])
+                elif not result['Value']: ## return an empty string instead
+                    result['Value'] = base64.b64decode(" ")
         return data
     return inner
 
